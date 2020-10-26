@@ -19,9 +19,9 @@ const getHtml = async () => {
 };
 
 getHtml()
-  .then(html => {
+  .then(response => {
     let urlList = [];
-    const $ = cheerio.load(html.data);
+    const $ = cheerio.load(response.data);
     const $bodyList = $(".board_list.type_notice table tbody").children("tr.notice");
 
     $bodyList.each(function(i, element) {
