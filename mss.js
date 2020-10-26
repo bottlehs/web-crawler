@@ -6,6 +6,9 @@
  *
  */
 
+  /**
+  * ResultType : HTML
+  */
 const axios = require("axios");
 const cheerio = require("cheerio");
 const office  = '중소기업벤처부';
