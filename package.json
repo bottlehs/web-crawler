@@ -1,0 +1,28 @@
+{
+  "name": "web-crawler",
+  "version": "1.0.0",
+  "description": "web-crawler",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bottlehs/web-crawler.git"
+  },
+  "keywords": [
+    "node.js",
+    "crawler",
+    "js"
+  ],
+  "author": "bottlehs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bottlehs/web-crawler/issues"
+  },
+  "homepage": "https://github.com/bottlehs/web-crawler#readme",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "cheerio": "^1.0.0-rc.3"
+  }
+}
