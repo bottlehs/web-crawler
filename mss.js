@@ -1,4 +1,11 @@
-// 중소기업벤처부 - 사업공고 크롤링
+/**
+ * 중소기업벤처부 - 사업공고 크롤링
+ *
+ * @author bottlehs
+ * @description 중소기업벤처부 사업공고 크롤링
+ *
+ */
+
 const axios = require("axios");
 const cheerio = require("cheerio");
 const office  = '중소기업벤처부';
