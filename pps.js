@@ -16,7 +16,7 @@
   */
 const axios = require("axios");
 const cheerio = require("cheerio");
-const office  = '중소기업벤처부';
+const office  = '조달청';
 
 const getHtml = async () => {
   try {
@@ -78,7 +78,9 @@ getHtml()
         title: title,
         period: period,
         people: people,
-        state: state
+        state: state,
+        url: url,
+        office : office
       };      
     });
 
