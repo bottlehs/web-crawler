@@ -6,6 +6,11 @@
  *
  */
 
+ /**
+  * @todo
+  * 1. 링크 접근을 못하도록 되어 있음, java 세션으로 상세보기 관리하기 때문에 상세보기 링크가 존재 하지 않음 공지사항에서 유사 링크는 찾을수 있으므로 알아 볼것
+  */
+
   /**
   * ResultType : HTML
   */
@@ -32,6 +37,7 @@ getHtml()
     let period = ''; // 신청기간
     let people = ''; // 신청인원/모집인원
     let state = ''; // 진행상태
+    let url = ''; // 링크
     $bodyList.each(function(i, element) {
       $(this).find('td').each(function(j, element) {
         if ( element.children[0].data ) {
@@ -58,6 +64,14 @@ getHtml()
       });
 
       title = $(this).find('td a').text().trim();
+
+      // 링크 ( pre-link )
+      let temp = $(this).find('td a').attr('href');     
+      temp = temp.split(',')[0];
+      var reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi
+      temp = temp.replace("javascript:fn_detailView","");
+      temp = temp.replace(reg, "");
+      console.log(temp);
 
       urlList[i] = {
         type: type,    
