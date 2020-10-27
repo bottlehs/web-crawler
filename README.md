@@ -14,6 +14,8 @@ web-crawler
   - pps
   - https://www.pps.go.kr
 - 산업통상자원부
+  - motie
+  - https://www.motie.go.kr
 - 문화체육관광부
 - 해양수산부
 - 식품의약품안전처
