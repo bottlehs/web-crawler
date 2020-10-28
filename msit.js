@@ -7,13 +7,17 @@
  */
 
  /**
+  * @todo
+  */
+
+  /**
   * ResultType : Json
   */
-const axios = require("axios");
-const office  = '과학기술정보통신부';
-
-const getHtml = async () => {
-  try {
+ const axios = require("axios");
+ const office  = '과학기술정보통신부';
+ 
+ async function getHtml() {
+   try {
     const params = {
       // 'callback': 'jQuery1800673946478618995_1603708369345',
       'search': 'creday<=20201026-19200',
@@ -33,15 +37,15 @@ const getHtml = async () => {
     return await axios.get("https://www.msit.go.kr/dynamic/article/_tstb17", {
       params: params,
     });
-  } catch (error) {
-    console.error(error);
-  }
-};
+   } catch (error) {
+     console.error(error);
+   }
+ }
+ 
+ async function getItems() {
+    let items = [];
+    const response = await getHtml();
 
-getHtml()
-  .then(response => {
-    let urlList = [];
-    
     response.data.result.nodes.forEach((item, i) => {
       const files = [];
       for ( var j = 0; j < 100; j++ ) {
@@ -50,18 +54,18 @@ getHtml()
         }
       }
 
-      urlList.push({
-        title: item.artsubject,
-        url: 'https://msit.go.kr/web/msipContents/contentsView.do?cateId=_tstb17&artId='+item.partid,
-        date: item.admin_t,
-        department: item.admin_p,
-        write: item.admin_w,
-        files: files,        
-        office : office
+      items.push({
+        title: item.artsubject, // 제목
+        url: 'https://msit.go.kr/web/msipContents/contentsView.do?cateId=_tstb17&artId='+item.partid, // 링크
+        date: item.admin_t, // 날짜
+        department: item.admin_p, // 부서
+        write: item.admin_w, // 작성자
+        files: files, // 파일
+        office : office // 소관부처
       });
     });
 
-    const data = urlList.filter(n => n.title);
-    return data;
-  })
-  .then(res => console.log(res));
+    return items;
+ };
+ 
+ module.exports = { getItems };

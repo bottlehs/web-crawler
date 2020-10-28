@@ -74,10 +74,3 @@ async function getItems() {
 };
 
 module.exports = { getItems };
-
-async function handleAsync() {
-  const smp = await getItems();
-  console.log(smp);
-}
-
-handleAsync();
