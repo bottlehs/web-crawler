@@ -31,7 +31,7 @@ async function getItems() {
   const $ = cheerio.load(response.data);
 
   $("table.listTable01 tbody").children("tr").each(function(i, element) {
-    const itme = {
+    const item = {
       title: '', // 제목
       department: '', // 담당부서
       regDate: '', // 등록일
@@ -45,29 +45,29 @@ async function getItems() {
       if ( element.children[0].data ) {
         if ( j == 2 ) {
           // 담당부서
-          itme.department = element.children[0].data.trim();
+          item.department = element.children[0].data.trim();
         }
         if ( j == 3 ) {
           // 등록일
-          itme.regDate = element.children[0].data.trim();
+          item.regDate = element.children[0].data.trim();
         }          
         if ( j == 4 ) {
           // 조회수
-          itme.hit = element.children[0].data.trim();
+          item.hit = element.children[0].data.trim();
         }          
       }        
     });
 
     // 제목
-    itme.title = $(this).find('.al .ellipsis a').text().trim();
+    item.title = $(this).find('.al .ellipsis a').text().trim();
 
     // 링크 
-    itme.url = 'https://www.motie.go.kr/motie/ne/announce2/bbs/' + $(this).find('.al .ellipsis a').attr('href');     
+    item.url = 'https://www.motie.go.kr/motie/ne/announce2/bbs/' + $(this).find('.al .ellipsis a').attr('href');     
 
     // 파일
-    itme.file =['https://www.motie.go.kr/'+$(this).find('.file a').attr('href')];
+    item.file =['https://www.motie.go.kr/'+$(this).find('.file a').attr('href')];
 
-    items.push(itme);
+    items.push(item);
   });
 
   return items;
