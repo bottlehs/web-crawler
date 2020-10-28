@@ -1,5 +1,5 @@
 /**
- * 산업통상자원부 - 사업공고 크롤링
+ * 산업통상자원부 - 사업공고 크롤링 
  *
  * @author bottlehs
  * @description 산업통상자원부 - 사업공고 크롤링
@@ -17,65 +17,67 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const office  = '산업통상자원부';
 
-const getHtml = async () => {
+async function getHtml() {
   try {
     return await axios.get("https://www.motie.go.kr/motie/ne/announce2/bbs/bbsList.do?bbs_cd_n=6");
   } catch (error) {
     console.error(error);
   }
-};
+}
 
-getHtml()
-  .then(response => {
-    let urlList = [];
-    const $ = cheerio.load(response.data);
-    const $bodyList = $("table.listTable01 tbody").children("tr");
+async function getItems() {
+  let items = [];
+  const response = await getHtml();
+  const $ = cheerio.load(response.data);
 
-    let title = ''; // 제목
-    let department = ''; // 담당부서
-    let regDate = ''; // 등록일
-    let hit = ''; // 조회수
-    let file = ''; // 첨부파일
-    let url = ''; // 링크
-    $bodyList.each(function(i, element) {
-      $(this).find('td').each(function(j, element) {
-        if ( element.children[0].data ) {
-          if ( j == 2 ) {
-            // 담당부서
-            department = element.children[0].data.trim();
-          }
-          if ( j == 3 ) {
-            // 등록일
-            regDate = element.children[0].data.trim();
-          }          
-          if ( j == 4 ) {
-            // 조회수
-            hit = element.children[0].data.trim();
-          }          
-        }        
-      });
+  $("table.listTable01 tbody").children("tr").each(function(i, element) {
+    const itme = {
+      title: '', // 제목
+      department: '', // 담당부서
+      regDate: '', // 등록일
+      hit: '', // 조회수
+      file: '', // 첨부파일
+      url: '', // 링크
+      office: office // 소관부처
+    };
 
-      // 제목
-      title = $(this).find('.al .ellipsis a').text().trim();
-
-      // 링크 
-      url = 'https://www.motie.go.kr/motie/ne/announce2/bbs/' + $(this).find('.al .ellipsis a').attr('href');     
-
-      // 파일
-      file =['https://www.motie.go.kr/'+$(this).find('.file a').attr('href')];
-
-      urlList[i] = {
-        title: title, // 제목
-        department : department, // 담당부서
-        regDate: regDate, // 등록일
-        hit: hit, // 조회수
-        file: file, // 첨부파일
-        url: url, // 링크
-        office : office
-      };   
+    $(this).find('td').each(function(j, element) {
+      if ( element.children[0].data ) {
+        if ( j == 2 ) {
+          // 담당부서
+          itme.department = element.children[0].data.trim();
+        }
+        if ( j == 3 ) {
+          // 등록일
+          itme.regDate = element.children[0].data.trim();
+        }          
+        if ( j == 4 ) {
+          // 조회수
+          itme.hit = element.children[0].data.trim();
+        }          
+      }        
     });
 
-    const data = urlList.filter(n => n.title);
-    return data;
-  })
-  .then(res => console.log(res));
+    // 제목
+    itme.title = $(this).find('.al .ellipsis a').text().trim();
+
+    // 링크 
+    itme.url = 'https://www.motie.go.kr/motie/ne/announce2/bbs/' + $(this).find('.al .ellipsis a').attr('href');     
+
+    // 파일
+    itme.file =['https://www.motie.go.kr/'+$(this).find('.file a').attr('href')];
+
+    items.push(itme);
+  });
+
+  return items;
+};
+
+module.exports = { getItems };
+
+async function handleAsync() {
+  const smp = await getItems();
+  console.log(smp);
+}
+
+handleAsync();

@@ -10,7 +10,6 @@
   * ResultType : Json
   */
 const axios = require("axios");
-const cheerio = require("cheerio");
 const office  = '과학기술정보통신부';
 
 const getHtml = async () => {
