@@ -24,6 +24,8 @@ web-crawler
   - mfds
   - https://www.mfds.go.kr
 - 환경부
+  - me
+  - https://me.go.kr
 - 국방부
 - 특허청
 - 금융위원회
