@@ -18,6 +18,8 @@ web-crawler
   - https://www.motie.go.kr
 - 문화체육관광부
 - 해양수산부
+  - kimst
+  - https://www.kimst.re.kr/u/rnd/inform_01/pjtAnuc.do
 - 식품의약품안전처
 - 환경부
 - 국방부
