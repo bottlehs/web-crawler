@@ -54,7 +54,10 @@
       const files = [];
       for ( var j = 0; j < 100; j++ ) {
         if ( item['file_0'+j] ) {
-          files.push(item['file_0'+j]);
+          files.push({
+            name : '첨부파일' + (j+1),
+            url : item['file_0'+j]
+          });
         }
       }
 
