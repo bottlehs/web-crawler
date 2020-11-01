@@ -46,7 +46,6 @@
      };
 
       $(this).find('td').each(function(j, element) {
-        console.log(j+':'+element.children[0].data);
         if ( j == 2 ) {
           // 담당부서
           item.department = element.children[0].data.trim();
