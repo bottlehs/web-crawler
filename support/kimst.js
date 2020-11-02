@@ -69,11 +69,3 @@
  };
  
  module.exports = { getItems };
-
-
- async function handleAsync() {
-  const res = await getItems();
-  console.log(res);
-}
-
-handleAsync();
