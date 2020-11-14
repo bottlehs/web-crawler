@@ -21,48 +21,23 @@
  const office  = '웨이브';
  const fs = require('fs');
 
- let note1 = "드라마"
- let note2 = "웹드라마"
+ let note1 = "영화"
+ let note2 = "다큐멘터리"
  let page = 1;
  let limit = 20;
+ let broadcastid = '81548';
  let isLast = true;
- let broadcastid = 109480;
- let subgenre = 'vsgm01009';
- let uicode = 'VN42';
- let uiparent = 'GN56-VN42';
- let uirank = 20;
- let uitype = 'VN42'; 
 
  async function getHtml() {
    try {
     const params = {
-      'WeekDay':'all',
-      'adult':'n',
-      'broadcastid':broadcastid,
-      'came':'BandView',
-      'contenttype':'program',
-      'genre':'01',
       'limit':limit,
       'offset':(page - 1) * limit,
-      'orderby':'viewtime',
       'page':page,
-      'subgenre':subgenre,
-      'uicode':uicode,
-      'uiparent':uiparent,
-      'uirank':uirank,
-      'uitype':uitype,
-      'apikey':'E5F3E0D30947AA5440556471321BB6D9',
-      'credential':'none',
-      'device':'pc',
-      'drm':'wm',
-      'partner':'pooq',
-      'pooqzone':'none',
-      'region':'kor',
-      'targetage':'all'      
     }
 
-    return await axios.get("https://apis.wavve.com/cf/vod/allprograms", {
-      params: params,
+    return await axios.get("https://apis.wavve.com/cf/movie/contents?WeekDay=all&broadcastid=81548&came=BandView&contenttype=movie&genre=mgm11&limit="+params.limit+"&mtype=svod&offset="+params.offset+"&page="+params.page+"&orderby=paid&price=all&uicode=MN18&uiparent=GN59-MN18&uirank=18&uitype=MN18&apikey=E5F3E0D30947AA5440556471321BB6D9&credential=none&device=pc&drm=wm&partner=pooq&pooqzone=none&region=kor&targetage=all", {
+      // params: params,
     });
    } catch (error) {
      console.error(error);
