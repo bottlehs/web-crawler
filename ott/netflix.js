@@ -21,6 +21,7 @@
  const cheerio = require("cheerio");
  const office  = '넷플릭스';
  const source = 'https://www.netflix.com';
+ const fs = require('fs');
  
  async function getHtml(url) {
    try {
@@ -127,3 +128,14 @@
  };
  
  module.exports = { getItems };
+
+  // 개별실행
+  async function handleAsync() {
+    // 넷플릭스
+    const netflixRes = await getItems();
+
+    const fileName = 'netflix/netflix.json';
+    fs.writeFileSync(fileName, JSON.stringify(netflixRes));        
+  }
+  
+  handleAsync();

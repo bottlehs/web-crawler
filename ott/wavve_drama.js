@@ -1,8 +1,8 @@
 /**
- * 과학기술정보통신부 - 사업공고 크롤링
+ * 웨이브 - 드라마 크롤링
  *
  * @author bottlehs
- * @description 과학기술정보통신부 - 사업공고 크롤링
+ * @description 웨이브 - 드라마 크롤링
  *
  */
 
@@ -21,10 +21,17 @@
  const office  = '웨이브';
  const fs = require('fs');
 
- let page = 23;
+ let note1 = "드라마"
+ let note2 = "웹드라마"
+ let page = 1;
  let limit = 20;
  let isLast = true;
- let broadcastid = 107322;
+ let broadcastid = 109480;
+ let subgenre = 'vsgm01009';
+ let uicode = 'VN42';
+ let uiparent = 'GN56-VN42';
+ let uirank = 20;
+ let uitype = 'VN42'; 
 
  async function getHtml() {
    try {
@@ -39,11 +46,11 @@
       'offset':(page - 1) * limit,
       'orderby':'viewtime',
       'page':page,
-      'subgenre':'vsgm01002',
-      'uicode':'VN35',
-      'uiparent':'GN56-VN35',
-      'uirank':6,
-      'uitype':'VN35',
+      'subgenre':subgenre,
+      'uicode':uicode,
+      'uiparent':uiparent,
+      'uirank':uirank,
+      'uitype':uitype,
       'apikey':'E5F3E0D30947AA5440556471321BB6D9',
       'credential':'none',
       'device':'pc',
@@ -74,7 +81,7 @@
       }
   
       // let data = JSON.stringify(response.data);
-      const fileName = 'wavve/wave_'+broadcastid+'_'+page + '.json';
+      const fileName = 'wavve/wave_'+note1+'_'+note2+'_'+broadcastid+'_'+page + '.json';
       fs.writeFileSync(fileName, JSON.stringify(data));    
 
       page++;
@@ -85,10 +92,11 @@
  
  module.exports = { getItems };
 
+ // 개별실행
  async function handleAsync() {
-  // 넷플릭스
-  const netflixRes = await getItems();
-  console.log(netflixRes);
+  // 웨이브
+  const wavveRes = await getItems();
+  console.log(wavveRes);
 }
 
 handleAsync();
