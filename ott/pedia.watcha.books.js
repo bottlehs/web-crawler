@@ -70,24 +70,22 @@
       if ( data.result ) {
         for ( var i = 0; i < data.result.length; i++ ) {
           console.log(data.result[i].code);
-          if ( i == 0 ) {
-            // 이 작품이 담긴 컬렉션 ( 유저 데이터 )
-            // await getHtml(api+'/api/contents/m5mY1nD/decks?page=2&size=5');
+          // 이 작품이 담긴 컬렉션 ( 유저 데이터 )
+          // await getHtml(api+'/api/contents/m5mY1nD/decks?page=2&size=5');
 
-            // 비슷한 작품
-            let similars = [];
-            let credits = [];
+          // 비슷한 작품
+          let similars = [];
+          let credits = [];
 
-            const responseSimilars = await getHtml(api+'/api/contents/'+data.result[i].code+'/similars?page=1&size=10000');
-            if ( responseSimilars.status == 200 ) {
-              const dataSimilars = responseSimilars.data.result;
-              if ( dataSimilars.result ) {
-                similars = similars.concat(dataSimilars.result);
-              }
-            }         
-            
-            data.result[i].similars = similars;     
-          }
+          const responseSimilars = await getHtml(api+'/api/contents/'+data.result[i].code+'/similars?page=1&size=10000');
+          if ( responseSimilars.status == 200 ) {
+            const dataSimilars = responseSimilars.data.result;
+            if ( dataSimilars.result ) {
+              similars = similars.concat(dataSimilars.result);
+            }
+          }         
+          
+          data.result[i].similars = similars;     
         }
 
         json = json.concat(data.result);
@@ -97,10 +95,6 @@
       } else {
         isLast = false;
       };
-
-      if ( 3 < page ) {
-        isLast = false;        
-      }
 
       if ( data.next_uri ) {
         // next
@@ -122,7 +116,7 @@
   async function handleAsync() {
     // 왓챠피디아 책
     const pediaWatchaRes = await getItems();
-    console.log('총합 : '+pediaWatchaRes.length);
+    console.log('책 총합 : '+pediaWatchaRes.length);
 
     const fileName = 'parse/pedia_watcha/pedia_watcha_books.json';
     fs.writeFileSync(fileName, JSON.stringify(pediaWatchaRes));        
