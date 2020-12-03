@@ -25,6 +25,8 @@
     "axios": "^0.21.0",
     "cheerio": "^1.0.0-rc.3",
     "firebase-admin": "^9.4.1",
+    "mariadb": "^2.5.1",
+    "probe-image-size": "^6.0.0",
     "uuidv4": "^6.2.5"
   }
 }

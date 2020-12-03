@@ -18,7 +18,7 @@
   * ResultType : HTML
   */
  const axios = require("axios");
- const cheerio = require("cheerio");
+ const cheerio = require("cheerio");                                                                                                                                                                                                                       
  const office  = '엑스클라우드';
  const source = 'https://www.5gxcloudgame.com';
  const fs = require('fs');
