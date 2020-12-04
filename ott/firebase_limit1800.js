@@ -135,7 +135,7 @@ async function handleAsync() {
   let complate = 0;
   for(let i = 0; i < json.length; i++) {
     let file_uuid = uuid();
-    if ( 1613 <= i && i <= 1800  ) {
+    if ( 1647 <= i && i <= 1800  ) {
       // console.log(json[i]);
       // console.log("번호 : "+i)
 
