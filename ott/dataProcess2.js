@@ -166,6 +166,7 @@ async function insertData(file) {
                   name: actor[j]
                 }
               });
+              console.log('actor 1 : '+actor[j]);              
             };
           };
 
@@ -178,6 +179,7 @@ async function insertData(file) {
                   name: director[j]
                 }
               });
+              console.log('actor 2 : '+director[j]);              
             };            
           };
         } else {
@@ -201,6 +203,7 @@ async function insertData(file) {
                   name: actor[j]
                 }
               });
+              console.log('actor 3 : '+actor[j]);          
             };
           };
 
@@ -213,6 +216,7 @@ async function insertData(file) {
                   name: director[j]
                 }
               });
+              console.log('actor 4 : '+director[j]);
             };            
           };
         }
@@ -407,7 +411,7 @@ async function insertData(file) {
 }
 
 async function getJsonFile() {
-  const rootFolder = './parse';
+  const rootFolder = './parse2';
   const jsonFils = [];
 
   try {
