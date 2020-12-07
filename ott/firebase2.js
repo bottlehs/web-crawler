@@ -181,6 +181,8 @@ async function insertBorad(i, doc) {
     // console.log(sql);
     let insert = await conn.query(sql); // 쿼리 실행
 
+    // wr_parent 업데이트 할것.
+
     /*
     // 새글 INSERT
     sql_query(" insert into {$g5['board_new_table']} ( bo_table, wr_id, wr_parent, bn_datetime, mb_id ) values ( '{$bo_table}', '{$wr_id}', '{$wr_id}', '".G5_TIME_YMDHIS."', '{$member['mb_id']}' ) ");
