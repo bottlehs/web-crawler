@@ -135,7 +135,7 @@ async function handleAsync() {
   let complate = 0;
   for(let i = 0; i < json.length; i++) {
     let file_uuid = uuid();
-    if ( 2201 <= i ) {
+    if ( 2488 <= i ) {
       // console.log(json[i]);
       // console.log("번호 : "+i)
 
@@ -638,4 +638,4 @@ async function handleAsync() {
 }
 
 handleAsync();
-
+// 총개수 : 22942 개
