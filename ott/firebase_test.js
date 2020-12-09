@@ -24,11 +24,16 @@ async function handleAsync() {
   // console.log(json.length);
   let complate = 0;
   for(let i = 0; i < json.length; i++) {
-    console.log(json[i].content_type);
+    // 3535, 3537
+    // 3534
+    if ( json[i].title == '크리스마스 원더랜드' ) {
+      console.log(i+':'+json[i].title);      
+    }
+    console.log(i);
   }    
 
-  console.log('전체 : '+json.length);
-  console.log('성공 : '+complate);
+  // console.log('전체 : '+json.length);
+  // console.log('성공 : '+complate);
 
 }
 
