@@ -135,12 +135,13 @@ async function handleAsync() {
   let complate = 0;
   for(let i = 0; i < json.length; i++) {
     let file_uuid = uuid();
-    if ( 3536 <= i ) {
+    if ( 4098 <= i ) {
       // console.log(json[i]);
       // console.log("번호 : "+i)
 
       // poster
       // console.log('poster');      
+      console.log(json[i]);
       if ( json[i].poster ) {
         if ( json[i].poster.large ) {
           if ( json[i].poster.large.length != 0 ) {
