@@ -22,11 +22,11 @@ var probe = require('probe-image-size');
 var mariadb = require('mariadb');
 
 const pool = mariadb.createPool({
-  host: '', 
+  host: '203.245.44.19', 
   port: 3306,
-  user: '', 
-  password: '',
-  connectionLimit: 5
+  user: 'ohttnet', 
+  password: 'ohttnet1',
+  connectionLimit: 20
 });
 
 function getNowTimeStamp() {  
@@ -43,6 +43,10 @@ function getNowTimeStamp() {
   return s;  
 }  
 
+function sleep (delay) {
+  var start = new Date().getTime();
+  while (new Date().getTime() < start + delay);
+}
 
 async function insertBorad(i, doc) {
   let conn, rows;
@@ -71,6 +75,7 @@ async function insertBorad(i, doc) {
     console.log(genres.toString());    
 
     let write_table = 'g5_write_content_game';
+    let bo_table = '';
     let wr_num = 0;
     let wr_reply = '';
     let ca_name = '';
@@ -100,6 +105,8 @@ async function insertBorad(i, doc) {
     if ( doc.data().content_type == 'movies' ) {
       // movies
       write_table = 'g5_write_content_movie';
+      bo_table = 'content_movie';
+
       wr_link1 = doc.data().poster.source; // 출처
       wr_1 = doc.data().poster.original; // 포스터 이미지
       wr_2 = doc.data().poster.ratings_avg; // 평점
@@ -109,6 +116,8 @@ async function insertBorad(i, doc) {
     } else if ( doc.data().content_type == 'tvseries' ) {
       // tvseries
       write_table = 'g5_write_content_tvseries';
+      bo_table = 'content_tvseries';
+
       wr_link1 = doc.data().poster.source; // 출처
       wr_1 = doc.data().poster.original; // 포스터 이미지
       wr_2 = doc.data().poster.ratings_avg; // 평점
@@ -118,6 +127,8 @@ async function insertBorad(i, doc) {
     } else {
       // games
       write_table = 'g5_write_content_game';
+      bo_table = 'content_game';
+
       wr_link1 = doc.data().poster.source; // 출처
       wr_1 = doc.data().poster.original; // 포스터 이미지
       wr_2 = doc.data().poster.ratings_avg; // 평점
@@ -180,18 +191,26 @@ async function insertBorad(i, doc) {
 
     // console.log(sql);
     let insert = await conn.query(sql); // 쿼리 실행
+    console.log(insert.insertId);
 
-    // wr_parent 업데이트 할것.
+    let out = await conn.query("select * from "+write_table+" where wr_id = "+insert.insertId+"");
 
-    /*
+    // wr_parent 업데이트 할것.    
+    await conn.query("update "+write_table+" set wr_parent = "+out[0].wr_id+", wr_num = "+(out[0].wr_id * -1)+" where wr_id = "+out[0].wr_id+"");
+    console.log("update "+write_table+" set wr_parent = "+out[0].wr_id+", wr_num = "+(out[0].wr_id * -1)+" where wr_id = "+out[0].wr_id+"");
+    out = await conn.query("select * from "+write_table+" where wr_id = "+insert.insertId+"");    
+
     // 새글 INSERT
-    sql_query(" insert into {$g5['board_new_table']} ( bo_table, wr_id, wr_parent, bn_datetime, mb_id ) values ( '{$bo_table}', '{$wr_id}', '{$wr_id}', '".G5_TIME_YMDHIS."', '{$member['mb_id']}' ) ");
+    // await conn.query("insert into g5_board_new ( bo_table, wr_id, wr_parent, bn_datetime, mb_id ) values ('"+write_table+"', "+out[0].wr_id+", "+out[0].wr_id+", '"+G5_TIME_YMDHIS+"', '"+mb_id+"') ");
+    // sql_query(" insert into {$g5['board_new_table']} ( bo_table, wr_id, wr_parent, bn_datetime, mb_id ) values ( '{$bo_table}', '{$wr_id}', '{$wr_id}', '".G5_TIME_YMDHIS."', '{$member['mb_id']}' ) ");
 
     // 게시글 1 증가
-    sql_query("update {$g5['board_table']} set bo_count_write = bo_count_write + 1 where bo_table = '{$bo_table}'");    
-    */
+    await conn.query("update g5_board set bo_count_write = bo_count_write + 1 where bo_table = '"+bo_table+"'");
+    console.log("update g5_board set bo_count_write = bo_count_write + 1 where bo_table = '"+bo_table+"'");
+    // sql_query("update {$g5['board_table']} set bo_count_write = bo_count_write + 1 where bo_table = '{$bo_table}'");    
 
     console.log(insert);
+    conn.release();
     
    return true; //insert
   }
@@ -220,6 +239,7 @@ async function getUserList() {
 */
 
 
+
 async function handleAsync() {  
   try {
     contents.get()
@@ -231,10 +251,19 @@ async function handleAsync() {
         }
 
         let i = 0;
+        let docs = []
         snapshot.forEach(async (doc) => {
-          await insertBorad(i, doc);
+          let temp = doc.data();
+          temp.id = doc.id;
+          docs.push(temp);
           i++;
         });
+
+
+        const fileName = 'firestore.json';
+        console.log(docs.length);
+        fs.writeFileSync(fileName, JSON.stringify(docs));    
+
         console.log(snapshot.size)        
         console.log(i);
       })
