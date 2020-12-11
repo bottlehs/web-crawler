@@ -27,13 +27,13 @@ async function handleAsync() {
     // 3535, 3537
     // 3534
     // 3790 > 3791
-    if ( json[i].title == '심사관' ) {
+    if ( json[i].title == '아직 사랑하고 있습니까?' ) {
       console.log(i+':'+json[i].title);      
     }
     // console.log(i);
   }    
 
-  // console.log('전체 : '+json.length);
+  console.log('전체 : '+json.length);
   // console.log('성공 : '+complate);
 
 }
