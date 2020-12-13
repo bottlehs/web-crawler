@@ -238,43 +238,60 @@ async function getUserList() {
 }
 */
 
+async function get () {
+  return new Promise(function(resolve, reject) {
 
+    try {
+      contents.get()
+      // contents.where('title', '==', '배트맨 대 슈퍼맨: 저스티스의 시작').get()    
+        .then(snapshot => {
+          if (snapshot.empty) {
+            console.log('No matching documents.');
+            return;
+          }
+  
+          let i = 0;
+          let docs = [];
+          let docs2 = [];
+          snapshot.forEach(async (doc) => {
+            let temp = doc.data();
+            temp.id = doc.id;
+            docs2.push(temp);
+            docs.push(doc);
+            i++;
+          });
+  
+  
+          const fileName = 'firestore.json';
+          console.log(docs2.length);
+          fs.writeFileSync(fileName, JSON.stringify(docs2));    
+
+          resolve(docs);
+        })
+        .catch(err => {
+          reject(Error(err));
+          console.log('Error getting documents', err);
+        });
+  
+  
+    } catch ( e ) {
+      reject(Error('error!!'));      
+      console.log(e);
+    }
+
+ });
+}
 
 async function handleAsync() {  
-  try {
-    contents.get()
-    // contents.where('title', '==', '배트맨 대 슈퍼맨: 저스티스의 시작').get()    
-      .then(snapshot => {
-        if (snapshot.empty) {
-          console.log('No matching documents.');
-          return;
-        }
+  console.log('step 1');
+  var list = await get();
+  console.log(list.length);
 
-        let i = 0;
-        let docs = []
-        snapshot.forEach(async (doc) => {
-          let temp = doc.data();
-          temp.id = doc.id;
-          docs.push(temp);
-          i++;
-        });
-
-
-        const fileName = 'firestore.json';
-        console.log(docs.length);
-        fs.writeFileSync(fileName, JSON.stringify(docs));    
-
-        console.log(snapshot.size)        
-        console.log(i);
-      })
-      .catch(err => {
-        console.log('Error getting documents', err);
-      });
-
-
-  } catch ( e ) {
-    console.log(e);
+  for ( var i = 0; i < list.length; i++ ) {
+    await insertBorad(i, list[i]);
   }
+
+  console.log('step 2');  
 }
 
 handleAsync();
