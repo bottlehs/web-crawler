@@ -113,7 +113,7 @@ async function insertBorad(i, doc) {
       wr_3 = doc.data().poster.year; // 출시년도      
       wr_4 = badges.toString(); // 제공 서비스
       wr_5 = genres.toString(); // 장르
-    } else if ( doc.data().content_type == 'tvseries' ) {
+    } else if ( doc.data().content_type == 'tvseries' || doc.data().content_type == 'tv_seasons' ) {
       // tvseries
       write_table = 'g5_write_content_tvseries';
       bo_table = 'content_tvseries';
@@ -288,6 +288,7 @@ async function handleAsync() {
   console.log(list.length);
 
   for ( var i = 0; i < list.length; i++ ) {
+    console.log(i);
     await insertBorad(i, list[i]);
   }
 
